@@ -7,45 +7,39 @@
                  [thheller/shadow-cljs "2.11.7"]
                  [reagent "0.10.0"]
                  [re-frame "1.1.2"]
-                 [day8.re-frame/tracing "0.6.0"]
-                 [re-com "2.9.0"]]
+                 [day8.re-frame/tracing "0.6.0"]]
 
-  :plugins [[lein-shadow "0.3.1"]
-            
-            [lein-shell "0.5.0"]]
+  :plugins [[lein-shadow "0.3.1"]]
 
   :min-lein-version "2.9.0"
-
   :source-paths ["src/clj" "src/cljs"]
-
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
+  :shadow-cljs {:nrepl  {:port 8777}
 
-  :shadow-cljs {:nrepl {:port 8777}
-                
-                :builds {:app {:target :browser
+                :builds {:app {:target     :browser
                                :output-dir "resources/public/js/compiled"
                                :asset-path "/js/compiled"
-                               :modules {:app {:init-fn front-emulator.core/init
-                                               :preloads [devtools.preload
-                                                          day8.re-frame-10x.preload]}}
-                               :dev {:compiler-options {:closure-defines {re-frame.trace.trace-enabled? true
-                                                                          day8.re-frame.tracing.trace-enabled? true}}}
-                               :release {:build-options
-                                         {:ns-aliases
-                                          {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}
+                               :modules    {:app {:init-fn  front-emulator.core/init
+                                                  :preloads [devtools.preload
+                                                             day8.re-frame-10x.preload]}}
+                               :dev        {:compiler-options {:closure-defines {re-frame.trace.trace-enabled?        true
+                                                                                 day8.re-frame.tracing.trace-enabled? true}}}
+                               :release    {:build-options
+                                            {:ns-aliases
+                                             {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}
 
-                               :devtools {:http-root "resources/public"
-                                          :http-port 8280
-                                          }}}}
-  
+                               :devtools   {:http-root "resources/public"
+                                            :http-port 8280
+                                            }}}}
+
   :shell {:commands {"karma" {:windows         ["cmd" "/c" "karma"]
                               :default-command "karma"}
-                     "open"  {:windows         ["cmd" "/c" "start"]
-                              :macosx          "open"
-                              :linux           "xdg-open"}}}
+                     "open"  {:windows ["cmd" "/c" "start"]
+                              :macosx  "open"
+                              :linux   "xdg-open"}}}
 
-  :aliases {"dev"          ["do" 
+  :aliases {"dev"          ["do"
                             ["shell" "echo" "\"DEPRECATED: Please use lein watch instead.\""]
                             ["watch"]]
             "watch"        ["with-profile" "dev" "do"
@@ -71,12 +65,12 @@
 
   :profiles
   {:dev
-   {:dependencies [[binaryage/devtools "1.0.2"]
-                   [day8.re-frame/re-frame-10x "0.7.0"]]
-    :source-paths ["dev"]}
+         {:dependencies [[binaryage/devtools "1.0.2"]
+                         [day8.re-frame/re-frame-10x "0.7.0"]]
+          :source-paths ["dev"]}
 
    :prod {}
-   
-}
+
+   }
 
   :prep-tasks [])
